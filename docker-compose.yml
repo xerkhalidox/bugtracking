@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - bugtracking
+    environment:
+      spring.datasource.url: "${DATASOURCE_URL}"
+      spring.datasource.password: "${DATASOURCE_PASSWORD}"
+      spring.datasource.username: "${DATASOURCE_USERNAME}"
+    depends_on:
+      - bugtrackingdb
+    volumes:
+      - .m2:/root/.m2
+  bugtrackingdb:
+    image: "mysql:8.0"
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DATASOURCE_PASSWORD}"
+      MYSQL_DATABASE: "${DATABASE_NAME}"
+      MYSQL_PASSWORD: "${DATASOURCE_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - '3307:3307'
+    networks:
+      - bugtracking
+networks:
+  bugtracking:
+    driver: bridge
