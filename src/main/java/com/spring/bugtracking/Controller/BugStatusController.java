@@ -16,15 +16,22 @@ public class BugStatusController {
     @Autowired
     private BugStatusService bugStatusService;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public List<BugStatus> getAllBugStatuses() {
         return bugStatusService.getAll();
     }
 
-    @PutMapping("/add/{name}")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BugStatusDto> addBugStatus(@PathVariable String name) {
-        return new ResponseEntity<>(bugStatusService.add(name), HttpStatus.CREATED);
+    public ResponseEntity<BugStatusDto> addBugStatus(@RequestBody BugStatusDto bugStatusDto) {
+        return new ResponseEntity<>(bugStatusService.add(bugStatusDto.getName()), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> deleteStatus(@RequestBody BugStatusDto bugStatusDto) {
+        bugStatusService.deleteStatus(bugStatusDto.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

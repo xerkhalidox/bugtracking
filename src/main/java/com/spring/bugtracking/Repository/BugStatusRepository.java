@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface BugStatusRepository extends JpaRepository<BugStatus, Integer> {
     Optional<BugStatus> getBugStatusByStatusName(String name);
+    void deleteBugStatusByStatusName(String name);
 }
