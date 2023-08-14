@@ -5,6 +5,7 @@ import com.spring.bugtracking.Entity.BugStatus;
 import com.spring.bugtracking.Repository.BugStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,11 @@ public class BugStatusService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Transactional
+    public void deleteStatus(String name) {
+        bugStatusRepository.deleteBugStatusByStatusName(name);
     }
 
     private BugStatusDto mapBugStatusToDto(BugStatus bugStatus) {
