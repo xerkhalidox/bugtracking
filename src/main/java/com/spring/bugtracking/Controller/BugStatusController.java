@@ -1,7 +1,6 @@
 package com.spring.bugtracking.Controller;
 
 import com.spring.bugtracking.Dto.BugStatusDto;
-import com.spring.bugtracking.Entity.BugStatus;
 import com.spring.bugtracking.Service.BugStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ public class BugStatusController {
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public List<BugStatus> getAllBugStatuses() {
+    public List<BugStatusDto> getAllBugStatuses() {
         return bugStatusService.getAll();
     }
 
@@ -29,7 +28,7 @@ public class BugStatusController {
     }
 
     @DeleteMapping("/")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> deleteStatus(@RequestBody BugStatusDto bugStatusDto) {
         bugStatusService.deleteStatus(bugStatusDto.getName());
         return new ResponseEntity<>(HttpStatus.OK);

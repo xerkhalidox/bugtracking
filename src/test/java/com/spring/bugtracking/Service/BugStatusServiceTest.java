@@ -4,12 +4,15 @@ import com.spring.bugtracking.Dto.BugStatusDto;
 import com.spring.bugtracking.Entity.BugStatus;
 import com.spring.bugtracking.Repository.BugStatusRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.Optional;
 
@@ -23,6 +26,13 @@ public class BugStatusServiceTest {
     @InjectMocks
     private BugStatusService bugStatusService;
 
+    private static PodamFactory podamFactory;
+
+    @BeforeAll
+    static void init() {
+        podamFactory = new PodamFactoryImpl();
+    }
+
     @Test
     public void BugStatusService_AddEmptyBugStatusName_ReturnsNull() {
         BugStatusDto bugStatusDto = bugStatusService.add(" ");
@@ -31,10 +41,8 @@ public class BugStatusServiceTest {
 
     @Test
     public void BugStatusService_AddStatus_ReturnsAddedStatus() {
-        BugStatus bugStatus1 = new BugStatus();
-        bugStatus1.setStatusName("new");
-        BugStatus bugStatus2 = new BugStatus();
-        bugStatus2.setStatusName("in-progress");
+        BugStatus bugStatus1 = podamFactory.manufacturePojo(BugStatus.class);
+        BugStatus bugStatus2 = podamFactory.manufacturePojo(BugStatus.class);
 
         when(bugStatusRepository.getBugStatusByStatusName(Mockito.anyString())).thenReturn(Optional.empty());
         when(bugStatusRepository.save(Mockito.any(BugStatus.class))).thenReturn(bugStatus1);
@@ -53,10 +61,8 @@ public class BugStatusServiceTest {
 
     @Test
     public void BugStatusService_AddExistedStatus_NotAddingIt() {
-        BugStatus bugStatus1 = new BugStatus();
-        bugStatus1.setStatusName("new");
-        BugStatus bugStatus2 = new BugStatus();
-        bugStatus2.setStatusName("in-progress");
+        BugStatus bugStatus1 = podamFactory.manufacturePojo(BugStatus.class);
+        BugStatus bugStatus2 = podamFactory.manufacturePojo(BugStatus.class);
 
         when(bugStatusRepository.getBugStatusByStatusName(Mockito.anyString())).thenReturn(Optional.empty());
         when(bugStatusRepository.save(Mockito.any(BugStatus.class))).thenReturn(bugStatus1);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,9 +27,14 @@ public class BugStatusService {
         return mapBugStatusToDto(bugStatus);
     }
 
-    public List<BugStatus> getAll() {
+    public List<BugStatusDto> getAll() {
         try {
-            return bugStatusRepository.findAll();
+            List<BugStatus> bugStatusesList = bugStatusRepository.findAll();
+            List<BugStatusDto> bugStatusDtoList = new ArrayList<>();
+            for (BugStatus bugStatus: bugStatusesList) {
+                bugStatusDtoList.add(mapBugStatusToDto(bugStatus));
+            }
+            return bugStatusDtoList;
         } catch (Exception e) {
             return null;
         }

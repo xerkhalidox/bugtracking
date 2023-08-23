@@ -21,6 +21,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -67,7 +68,7 @@ class PersonControllerTest {
 
     @Test
     void deletePerson() throws Exception {
-        given(personService.add(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        doNothing().when(personService).delete(ArgumentMatchers.anyString());
         ResultActions resultMatcher = mockMvc.perform(delete("/person/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(personDto)));
