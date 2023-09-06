@@ -28,16 +28,12 @@ public class BugStatusService {
     }
 
     public List<BugStatusDto> getAll() {
-        try {
-            List<BugStatus> bugStatusesList = bugStatusRepository.findAll();
-            List<BugStatusDto> bugStatusDtoList = new ArrayList<>();
-            for (BugStatus bugStatus: bugStatusesList) {
-                bugStatusDtoList.add(mapBugStatusToDto(bugStatus));
-            }
-            return bugStatusDtoList;
-        } catch (Exception e) {
-            return null;
+        List<BugStatus> bugStatusesList = bugStatusRepository.findAll();
+        List<BugStatusDto> bugStatusDtoList = new ArrayList<>();
+        for (BugStatus bugStatus: bugStatusesList) {
+            bugStatusDtoList.add(mapBugStatusToDto(bugStatus));
         }
+        return bugStatusDtoList;
     }
 
     @Transactional
